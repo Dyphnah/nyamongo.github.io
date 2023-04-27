@@ -1,80 +1,47 @@
-const theme = document.querySelector(".theme-btn")
-const
+const picture = document.querySelector(".blog");
+const title = document.querySelector(".blog-text");
+const author = document.createElement("blog-text, h4");
+const content =document.querySelector(".blog-text, p");
+const contactForm = document.querySelector("contact-form");
+const themeButton = document.querySelector(".theme-btn");
 
-const addBlog = function (blog) {
-    [...].forEach(button => {
-        button.addEventListener("click", function() {
-            document.querySelector(".active-btn").classList.remove("active-btn");
-            this.classList.add("active-btn");
-            document.querySelector(".active").classList.remove("active");
-            document.getElementById(button.dataset.id).classList.add("active");
-        })
-    });
-    document.querySelector(".theme-btn").addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
-    })
-}();
+const url = 'http://localhost:3000/blog';
 
-// Referencing Old Code
-// Selecting all elements
+// add a new blog from json file
+function fetchNewBlog(id) {
+    fetch(`${url}/${id}`)
+    .then(response => response.json())
+    .then(blog => {
+      picture.src = data.picture;
+      content.innerHTML = data.content;
+      title.innerHTML = data.title;
+      author.innerHTML = data.author;
+        }     
+      )};
 
-const movieTitle = document.getElementById('title');
-const poster = document.querySelector('#poster');
-const runTime = document.getElementById('runtime');
-let showTime = document.getElementById('showtime');
-const tickets = document.getElementById('tickets');
-const description = document.querySelector('#film-info');
-const numAvailableTickets = document.getElementById('ticket-num');
-const button = document.querySelector('#buy-ticket');
+//change theme
+function toggleTheme (light, dark) {
+document.querySelector(".theme-btn").addEventListener("click", () => {
+ document.body.classList.toggle("light-mode");
+})} 
 
-const url = 'http://localhost:3000/films';
+// form submission
 
-function fetchFirstMovie(id) {
-  fetch(`${url}/${id}`)
-  .then(response => response.json())
-  .then(data => {
-    poster.src = data.poster;
-    movieTitle.innerHTML = data.title;
-    runTime.innerHTML = `${data.runtime} minutes`;
-    showTime.innerHTML = data.showtime;
-    description.innerHTML = data.description;
-    numAvailableTickets.innerText = data.capacity - data.tickets_sold;
+const button = document.querySelector('.main-btn');
+button.addEventListener('click', () => {
+  const name = document.querySelector('input[type="text"]').value;
+  const email = document.querySelector('input[type="email"]').value;
+  const subject = document.querySelector('input[type="text"]').value;
+  const message = document.querySelector('textarea').value;
+  const body = `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`;
+  window.location.href = `mailto:nyandukodyphnah4@gmail.com?subject=${subject}&body=${body}`;
+});
 
-    //  Deliverable 3: Buy Movie Ticket and decrease available tickets
-    button.addEventListener('click', (event) => {
-      event.preventDefault();
-      if(numAvailableTickets.innerText > 0) {
-        numAvailableTickets.innerText--;
-      } else {
-        button.innerText = 'Sold Out';
-      }     
-    });
-  });
-}
 
-// Deliverable 2: See a Menu of all Movies/Films.
-const nav = document.getElementById('films');
-
-function listAllMovies() {
-  fetch(`${url}`)
-  .then(response => response.json())
-  .then(films => {
-    nav.innerText = '';
-    films.forEach(film => {
-      const li = document.createElement('li');
-      const link = document.createElement('a');
-      link.href = '#';
-      li.innerText = film.title.toUpperCase();
-      li.addEventListener('click', () => {
-        fetchFirstMovie(film.id);
-      });
-      li.appendChild(link);
-      nav.appendChild(li);
-    });
-  });
-}
 
 document.addEventListener('DOMContentLoaded', function() {
-  fetchFirstMovie(1);
-  listAllMovies(); 
-});
+    fetchNewBlog(1);
+    toggleTheme(); 
+    
+ });
+
